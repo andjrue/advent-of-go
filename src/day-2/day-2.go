@@ -13,11 +13,12 @@ import (
 
 func solve(lines []string) {
 
-	const MaxRed = 12
-	const MaxGreen = 13
-	const MaxBlue = 14
+	// const MaxRed = 12 Don't need these for part 2
+	// const MaxGreen = 13
+	// const MaxBlue = 14
 
-	score := 0 // This is fine, we only ever need one score
+	res := 0 // This is fine, we only ever need one score
+	var powerOfMinNeeded = 0
 
 	for _, line := range lines {
 		splitForID := strings.Split(line, ":")
@@ -43,8 +44,9 @@ func solve(lines []string) {
 		// We do want to split here because the colors are put back into the bag
 		// OK to look at each draw independently
 
-		exceeded := false
+		// exceeded := false
 		// This is also fine, need to reinit exceeded as well
+		minRed, minGreen, minBlue := 0, 0, 0
 
 		for _, seg := range colorSegs { // This loop is fine, we need to go through the color segs and break them apart further
 			colorsPicked := strings.TrimSpace(seg)
@@ -69,10 +71,10 @@ func solve(lines []string) {
 					fmt.Println("Issue converting # of color to int")
 				}
 
-				redCount, greenCount, blueCount := 0, 0, 0 // This was actually in the wrong place
+				redCount, greenCount, blueCount := 0, 0, 0
+				// This was actually in the wrong place
 				// Silly me, we don't want to initialize a count through every big loop. We want it set
 				// whenever we start a new iteration through colorDetails.
-
 				// All good, problem solved - solution is working
 
 				// fmt.Println(color)
@@ -80,52 +82,31 @@ func solve(lines []string) {
 				switch color {
 				case "red":
 					redCount += value
-					fmt.Println("Red Count: ", redCount)
-
-					if redCount > MaxRed {
-						exceeded = true
-						fmt.Println("Invalid game", gameID)
-						break // Added break statements, we can get out of here if one of these exceeds
+					if redCount > minRed {
+						minRed = redCount
 					}
+					fmt.Println("Min Red: ", minRed)
 
 				case "green":
 					greenCount += value
-					fmt.Println("Green Count: ", greenCount)
-
-					if greenCount > MaxGreen {
-						exceeded = true
-						fmt.Println("Invalid game", gameID)
-						break
+					if greenCount > minGreen {
+						minGreen = greenCount
 					}
+					fmt.Println("Min Green: ", minGreen)
 
 				case "blue":
 					blueCount += value
-					fmt.Println("Blue Count: ", blueCount)
-
-					if blueCount > MaxBlue {
-						exceeded = true
-						fmt.Println("Invalid game", gameID)
-						break
+					if blueCount > minBlue {
+						minBlue = blueCount
 					}
+					fmt.Println("Min Blue: ", minBlue)
 				}
 			}
-
-			if exceeded {
-				break
-			}
+			powerOfMinNeeded = (minBlue * minGreen * minRed)
+			fmt.Println(powerOfMinNeeded)
 		}
-
-		if !exceeded {
-			game, err := strconv.Atoi(gameID)
-
-			if err != nil {
-				fmt.Println("Error converting gameID -> int")
-				continue
-			}
-			score += game
-		}
-
-		fmt.Println(score)
+		res += powerOfMinNeeded
+		fmt.Println("Result: ", res)
 	}
 }
 
