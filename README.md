@@ -11,8 +11,8 @@ I've done some work with concurrency, but now it's time to solve problems. I mig
 - [x] Day 1
 - [x] Day 2 -> This one was painful. Can't wait for this to get more difficult.
   - [x] Day 2 Part 2
-- [ ] Day 3
-- [ ] Day 4
+- [ ] Day 3 -> It will take a stronger, and much smarter, man to finish this
+- [x] Day 4
 - [ ] Day 5
 - [ ] Day 6
 - [ ] Day 7
